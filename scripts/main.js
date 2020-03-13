@@ -1,47 +1,62 @@
 // set up the canvas and renderer
 const canvas = document.querySelector('#c');
-const renderer = new THREE.WebGLRenderer({ canvas });
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+
+// set up clock
+const clock = new THREE.Clock()
 
 // set up camera
 const fov = 75;
 const aspect = window.innerWidth / window.innerHeight;
 const near = 0.1;
-const far = 1000;
+const far = 10000;
 const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-camera.position.z = 5;
+camera.position.z = 600;
+
 
 // set up scene
 const scene = new THREE.Scene();
 
-// set up cubes in scene
-const boxWidth = 1;
-const boxHeight = 1;
-const boxDepth = 1;
-const geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
-
-function makeInstance(geometry, color, x) {
-  const material = new THREE.MeshPhongMaterial({ color });
-
-  const cube = new THREE.Mesh(geometry, material);
-  scene.add(cube);
-
-  cube.position.x = x;
-
-  return cube;
-}
-
-const cubes = [
-  makeInstance(geometry, 0x44aa88, 0),
-  makeInstance(geometry, 0x8844aa, -2),
-  makeInstance(geometry, 0xaa8844, 2),
-];
 
 // add lighting
 const color = 0xFFFFFF;
 const intensity = 1;
-const light = new THREE.DirectionalLight(color, intensity);
-light.position.set(-1, 2, 4);
+const distance = 0;
+const angle = Math.PI / 2;
+const penumbra = 1;
+
+const light = new THREE.SpotLight(
+  color,
+  intensity,
+  distance,
+  angle,
+  penumbra
+  );
+light.position.set(2000, 4000, 3000);
+light.target.position.set(0,0,0);
+light.castSahdow = true;
 scene.add(light);
+
+// add the earth
+const earthGeo = new THREE.SphereGeometry(200, 400, 400);
+const earthMat = new THREE.MeshPhongMaterial();
+earthMat.map = new THREE.TextureLoader().load('images/earthmap1k.jpg');
+earthMat.bumpMap = new THREE.TextureLoader().load('images/elev_bump_16ka.jpg');
+earthMat.bumpScale = 8;
+earthMat.specularMap = new THREE.TextureLoader().load('images/earthspec1k.jpg');
+earthMat.specular = new THREE.Color('#2e2e2e');
+const earthMesh = new THREE.Mesh(earthGeo, earthMat);
+earthMesh.castShadow = true;
+earthMesh.receiveShadow = true;
+scene.add(earthMesh);
+
+// add stars
+const starGeo = new THREE.SphereGeometry(3000, 20, 100);
+const starMat = new THREE.MeshBasicMaterial();
+starMat.map = new THREE.TextureLoader().load('images/star-field.png');
+starMat.side = THREE.BackSide;
+var starMesh = new THREE.Mesh(starGeo, starMat);
+scene.add(starMesh);
 
 // resize canvas and renderer
 function resizeRendererToDisplaySize(renderer) {
@@ -55,10 +70,15 @@ function resizeRendererToDisplaySize(renderer) {
   return needResize;
 }
 
-// run the animation
-function animate(time) {
-  time *= 0.001; // convert to seconds
+// controls
+const controls = new THREE.OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.dampingFactor = 0.25;
+controls.enableZoom = true;
+// controls.autoRotate = true;
 
+// render
+function render() {
   // did aspect ratio / viewport change?
   if (resizeRendererToDisplaySize(renderer)) {
     // maintain camera render aspect ratio
@@ -66,19 +86,15 @@ function animate(time) {
     camera.aspect = canvas.clientWidth / canvas.clientHeight;
     camera.updateProjectionMatrix();
   }
-
-  // change up each one
-  cubes.forEach((cube, ndx) => {
-    const speed = 1 + ndx * .1;
-    const rot = time * speed;
-    cube.rotation.x = rot;
-    cube.rotation.y = rot;
-  });
-
-  // render the scene
   renderer.render(scene, camera);
+}
 
-  // continuously run this loop
+// run the animation
+function animate(time) {
   requestAnimationFrame(animate);
+  controls.update();
+  var delta = clock.getDelta();
+  earthMesh.rotation.y += 0.1 * delta;
+  render();
 }
 animate();
