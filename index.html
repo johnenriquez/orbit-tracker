@@ -14,56 +14,7 @@
   <canvas id="c"></canvas>
   <div class="overlay">•ᴗ•</div>
   <script src="scripts/vendor/three.js"></script>
-  <script>
-    // set up the canvas and renderer
-    const canvas = document.querySelector('#c');
-    const renderer = new THREE.WebGLRenderer({ canvas });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-
-    // set up camera
-    const fov = 75;
-    const aspect = window.innerWidth / window.innerHeight;
-    const near = 0.1;
-    const far = 1000;
-    const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-    camera.position.z = 5;
-
-    // set up scene
-    const scene = new THREE.Scene();
-
-    // set up box in scene
-    const boxWidth = 1;
-    const boxHeight = 1;
-    const boxDepth = 1;
-    const geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
-    const material = new THREE.MeshPhongMaterial({ color: 0x44aa88 });
-    const cube = new THREE.Mesh(geometry, material);
-    scene.add(cube);
-
-    // add lighting
-    const color = 0xFFFFFF;
-    const intensity = 1;
-    const light = new THREE.DirectionalLight(color, intensity);
-    light.position.set(-1, 2, 4);
-    scene.add(light);
-
-    // run the animation
-    function animate(time) {
-      // make animation adjustments
-      time *= 0.001; // convert to seconds
-      cube.rotation.x = time;
-      cube.rotation.y = time;
-      // cube.rotation.x += 0.01;
-      // cube.rotation.y += 0.01;
-
-      // render the scene
-      renderer.render(scene, camera);
-
-      // continuously run this loop
-      requestAnimationFrame(animate);
-    }
-    animate();
-  </script>
+  <script src="scripts/main.js"></script>
 </body>
 
 </html>
