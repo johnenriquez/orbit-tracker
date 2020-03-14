@@ -4,9 +4,9 @@
   "description": "Welcome to [Orbit Tracker](https://johnenriquez.github.io/orbit-tracker/)!",
   "main": "webpack.config.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "webpack": "webpack --watch --mode=development",
-    "sass": "sass --watch src/styles/index.scss:dist/css/styles.css"
+    "sass": "sass --watch src/styles/index.scss:dist/css/styles.css",
+    "dev": "concurrently \"npm run webpack\" \"npm run sass\""
   },
   "repository": {
     "type": "git",
@@ -20,6 +20,9 @@
   },
   "homepage": "https://github.com/johnenriquez/orbit-tracker#readme",
   "dependencies": {
-    "three": "^0.114.0"
+    "concurrently": "^5.1.0",
+    "sass": "^1.26.3",
+    "three": "^0.114.0",
+    "webpack": "^4.42.0"
   }
 }
