@@ -1,3 +1,6 @@
+import * as THREE from "three";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+
 // XHR, Promise style
 var makeRequest = function (url, method) {
   var request = new XMLHttpRequest();
@@ -118,7 +121,7 @@ function resizeRendererToDisplaySize(renderer) {
 }
 
 // controls
-const controls = new THREE.OrbitControls(camera, renderer.domElement);
+const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.dampingFactor = 0.25;
 controls.enableZoom = true;

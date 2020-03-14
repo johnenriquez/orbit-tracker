@@ -1,0 +1,25 @@
+{
+  "name": "orbit-tracker",
+  "version": "1.0.0",
+  "description": "Welcome to [Orbit Tracker](https://johnenriquez.github.io/orbit-tracker/)!",
+  "main": "webpack.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "webpack": "webpack --watch --mode=development",
+    "sass": "sass --watch src/styles/index.scss:dist/css/styles.css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/johnenriquez/orbit-tracker.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/johnenriquez/orbit-tracker/issues"
+  },
+  "homepage": "https://github.com/johnenriquez/orbit-tracker#readme",
+  "dependencies": {
+    "three": "^0.114.0"
+  }
+}
