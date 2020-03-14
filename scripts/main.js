@@ -1,3 +1,50 @@
+// XHR, Promise style
+var makeRequest = function (url, method) {
+  var request = new XMLHttpRequest();
+  return new Promise(function (resolve, reject) {
+    request.onreadystatechange = function () {
+      // Only run if the request is complete
+      if (request.readyState !== 4) return;
+      // Process the response
+      if (request.status >= 200 && request.status < 300) {
+        // Success
+        resolve(request);
+      } else {
+        // Failure
+        reject({
+          status: request.status,
+          statusText: request.statusText
+        });
+      }
+    };
+    request.open(method || 'GET', url, true);
+    request.send();
+  });
+};  
+
+// Create and send a GET request
+// The first argument is the post type (GET, POST, PUT, DELETE, etc.)
+// The second argument is the endpoint URL
+let satId = 25544; // ISS
+let obsLat = 37.67;
+let obsLng = -122.47;
+let obsAlt = 0;
+let numSamples = 3;
+let apiKey = "Y8WB5D-Y893UH-5V68FF-4BOJ";
+let apiBase = "https://www.n2yo.com/rest/v1/satellite/positions"
+let apiUrl = `${apiBase}/${satId}/${obsLat}/${obsLng}/${obsAlt}/${numSamples}?apiKey=${apiKey}`;
+makeRequest(apiUrl)
+  .then(function (data) {
+    console.log('Success!', data.response);
+  })
+  .catch(function (error) {
+    console.log('Something went wrong', error);
+  });
+
+
+
+// =======================================================================
+
 // set up the canvas and renderer
 const canvas = document.querySelector('#c');
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
