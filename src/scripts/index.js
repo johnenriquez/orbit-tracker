@@ -110,8 +110,8 @@ scene.add(earthGroup);
 // add the earth
 const earthGeo = new THREE.SphereGeometry(RADIUS_EARTH, 800, 800);
 const earthMat = new THREE.MeshPhongMaterial();
-earthMat.map = new THREE.TextureLoader().load("images/2k_earth_daymap.jpg");
-// earthMat.map = new THREE.TextureLoader().load('images/earthmap1k.jpg');
+// earthMat.map = new THREE.TextureLoader().load("images/2k_earth_daymap.jpg");
+earthMat.map = new THREE.TextureLoader().load('images/earthmap1k.jpg');
 // earthMat.bumpMap = new THREE.TextureLoader().load('images/elev_bump_16ka.jpg');
 // earthMat.bumpScale = 50;
 // earthMat.specularMap = new THREE.TextureLoader().load('images/earthspec1k.jpg');
@@ -161,7 +161,7 @@ function makeLabelCanvas(size, name) {
   return ctx.canvas;
 }
 
-const labelCanvas = makeLabelCanvas(300, satName);
+const labelCanvas = makeLabelCanvas(100, satName);
 const labelTexture = new THREE.CanvasTexture(labelCanvas);
 // because our canvas is likely not a power of 2
 // in both dimensions set the filtering appropriately.
