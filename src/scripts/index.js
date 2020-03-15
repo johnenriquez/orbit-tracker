@@ -67,7 +67,7 @@ const clock = new THREE.Clock()
 const fov = 75;
 const aspect = window.innerWidth / window.innerHeight;
 const near = 0.1;
-const far = 50000;
+const far = 10000;
 const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
 camera.position.z = 1200;
 
@@ -221,7 +221,7 @@ satGroup.rotation.y = degToRad(satLng);
 // earthGroup.rotation.y = Math.PI / 2;
 
 // add stars
-const starGeo = new THREE.SphereGeometry(8000, 20, 100);
+const starGeo = new THREE.SphereGeometry(3000, 20, 100);
 // const starMat = new THREE.MeshPhongMaterial({ color: 0x999999 });
 const starMat = new THREE.MeshBasicMaterial();
 starMat.map = new THREE.TextureLoader().load('images/star-field.png');
