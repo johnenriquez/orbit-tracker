@@ -108,10 +108,10 @@ const earthGroup = new THREE.Object3D();
 scene.add(earthGroup);
 
 // add the earth
-const earthGeo = new THREE.SphereGeometry(RADIUS_EARTH, 800, 800);
+const earthGeo = new THREE.SphereGeometry(RADIUS_EARTH, 75, 75);
 const earthMat = new THREE.MeshPhongMaterial();
-// earthMat.map = new THREE.TextureLoader().load("images/2k_earth_daymap.jpg");
-earthMat.map = new THREE.TextureLoader().load('images/earthmap1k.jpg');
+earthMat.map = new THREE.TextureLoader().load("images/2k_earth_daymap.jpg");
+// earthMat.map = new THREE.TextureLoader().load('images/earthmap1k.jpg');
 // earthMat.bumpMap = new THREE.TextureLoader().load('images/elev_bump_16ka.jpg');
 // earthMat.bumpScale = 50;
 // earthMat.specularMap = new THREE.TextureLoader().load('images/earthspec1k.jpg');
