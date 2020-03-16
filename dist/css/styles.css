@@ -11,4 +11,31 @@ body {
   height: 100%;
   display: block; }
 
+.ui {
+  padding: 1em 2em;
+  background-color: #111;
+  color: #fff; }
+  .ui a {
+    color: #fff;
+    text-decoration: none; }
+
+.ui-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 0; }
+  .ui-bar ul {
+    list-style: none;
+    text-align: center;
+    padding-left: 0; }
+    @media only screen and (min-width: 600px) {
+      .ui-bar ul {
+        display: flex;
+        justify-content: space-between;
+        align-items: center; } }
+    .ui-bar ul a {
+      display: block;
+      padding: 0.5em; }
+
 /*# sourceMappingURL=styles.css.map */
