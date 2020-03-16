@@ -63,7 +63,7 @@ class OrbitTracker {
     const fov = 75;
     const aspect = window.innerWidth / window.innerHeight;
     const near = 0.1;
-    const far = 10000;
+    const far = 20000;
     return new THREE.PerspectiveCamera(fov, aspect, near, far);
   }
 
@@ -197,7 +197,7 @@ class OrbitTracker {
   }
 
   newStarBackground() {
-    const starGeo = new THREE.SphereGeometry(3000, 20, 100);
+    const starGeo = new THREE.SphereGeometry(8000, 20, 100);
     // const starMat = new THREE.MeshPhongMaterial({ color: 0x999999 });
     const starMat = new THREE.MeshBasicMaterial();
     starMat.map = new THREE.TextureLoader().load("images/star-field.png");

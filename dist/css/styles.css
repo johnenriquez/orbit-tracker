@@ -18,6 +18,8 @@ body {
   .ui a {
     color: #fff;
     text-decoration: none; }
+    .ui a:hover {
+      text-decoration: underline; }
 
 .ui-bar {
   position: absolute;
@@ -63,5 +65,17 @@ body {
     padding: 0; }
   .ui-sat-info li {
     padding: .5em; }
+
+.ui-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  color: #ccc;
+  padding: 1em;
+  font-size: 14px; }
+  .ui-footer a {
+    color: #ccc; }
 
 /*# sourceMappingURL=styles.css.map */
