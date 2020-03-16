@@ -190,7 +190,7 @@ class OrbitTracker {
 
     // position it
     satMesh.position.set(0, 0, toScale(RADIUS_EARTH) + toScale(satAltitude));
-    satGroup.rotation.x = degToRad(-satLatitude);
+    satGroup.rotation.x = degToRad(satLatitude);
     satGroup.rotation.y = degToRad(satLongitude);
 
     return satGroup;
