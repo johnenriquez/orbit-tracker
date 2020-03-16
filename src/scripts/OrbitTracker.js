@@ -26,10 +26,11 @@ class OrbitTracker {
     });
     this.clock = new THREE.Clock();
     this.animate = this.animate.bind(this);
+    this.loading = true;
   }
-  
+
   newWorldLights() {
-    const worldLights = new THREE.Object3D;
+    const worldLights = new THREE.Object3D();
     // main light
     const color = 0xffffff;
     const intensity = 0.7;
@@ -157,7 +158,7 @@ class OrbitTracker {
     } else {
       satGeo = new THREE.BoxGeometry(1, 1, 1);
       satMat = new THREE.MeshBasicMaterial({
-        color: 0xffff00,
+        color: 0xffff00
       });
       satLightColor = 0xffff00;
       withLabel = false;
@@ -187,7 +188,7 @@ class OrbitTracker {
     // add to parent
     satGroup.add(satMesh);
 
-    // position it    
+    // position it
     satMesh.position.set(0, 0, toScale(RADIUS_EARTH) + toScale(satAltitude));
     satGroup.rotation.x = degToRad(-satLatitude);
     satGroup.rotation.y = degToRad(satLongitude);
@@ -222,6 +223,12 @@ class OrbitTracker {
     controls.enableZoom = true;
     controls.autoRotate = true;
 
+    // add loading screen
+    const loadingModal = document.createElement("div");
+    loadingModal.classList.add("loadingModal");
+    loadingModal.innerHTML = "Loading Satellite..."
+    document.body.appendChild(loadingModal);
+
     // set up scene
     this.scene = new THREE.Scene();
 
@@ -240,8 +247,13 @@ class OrbitTracker {
     // add satellites
     this.getSatInfo(this.satId, this.obsLat, this.obsLng, this.obsAlt)
       .then(data => {
+        // no more loading
+        let loadingModal = document.querySelector(".loadingModal");
+        loadingModal.parentNode.removeChild(loadingModal);
+
+        // get info
         let { info, positions } = JSON.parse(data.response);
-        
+
         // primary satellite
         let position = positions[0];
         const primarySat = this.newSatObject({
@@ -252,6 +264,36 @@ class OrbitTracker {
           style: "primary"
         });
         this.earth.add(primarySat);
+        // show info
+        let satInfo = document.createElement("div");
+        satInfo.classList.add("ui");
+        satInfo.classList.add("ui-sat-info");
+        let infoSatName = document.createElement("h2");
+        infoSatName.innerHTML = info.satname;
+        satInfo.appendChild(infoSatName);
+        let infoList = document.createElement("ul");
+        satInfo.appendChild(infoList);
+        const newInfoItem = (key, val) => {
+          let item = document.createElement("li");
+          let keyElement = document.createElement("strong");
+          keyElement.innerHTML = key;
+          item.appendChild(keyElement);
+          let valElement = document.createElement("span");
+          valElement.innerHTML = val;
+          item.appendChild(valElement);
+          return item;
+        }
+        infoList.appendChild(newInfoItem("Latitude: ", position.satlatitude));
+        infoList.appendChild(newInfoItem("Longitude: ", position.satlongitude));
+        infoList.appendChild(newInfoItem("Altitude: ", position.sataltitude));
+        infoList.appendChild(newInfoItem("Azimuth: ", position.azimuth));
+        infoList.appendChild(newInfoItem("Elevation: ", position.elevation));
+        infoList.appendChild(newInfoItem("Right Ascension: ", position.ra));
+        infoList.appendChild(newInfoItem("Declination: ", position.dec));
+        infoList.appendChild(newInfoItem("Timestamp: ", position.timestamp));
+        
+        document.body.appendChild(satInfo);
+
 
         // satellite future footprint
         positions.forEach((position, i) => {
@@ -259,28 +301,28 @@ class OrbitTracker {
             satName: info.satname,
             satAltitude: position.sataltitude,
             satLatitude: position.satlatitude,
-            satLongitude: position.satlongitude,
+            satLongitude: position.satlongitude
           });
           this.earth.add(secondarySat);
         });
-
-        
-        
       })
       .catch(error => {
         console.log("Error:", error);
       });
-    
+
     // run the animation
     this.animate();
   }
 
-  animate(time) {
-    requestAnimationFrame(this.animate);
-    // controls.update();
-    var delta = this.clock.getDelta();
-    this.earth.rotation.y += 0.05 * delta;
-    this.render();
+  resizeRendererToDisplaySize(renderer) {
+    const canvas = renderer.domElement;
+    const width = canvas.clientWidth;
+    const height = canvas.clientHeight;
+    const needResize = canvas.width !== width || canvas.height !== height;
+    if (needResize) {
+      renderer.setSize(width, height, false);
+    }
+    return needResize;
   }
 
   render() {
@@ -295,15 +337,13 @@ class OrbitTracker {
     this.renderer.render(this.scene, this.camera);
   }
 
-  resizeRendererToDisplaySize(renderer) {
-    const canvas = renderer.domElement;
-    const width = canvas.clientWidth;
-    const height = canvas.clientHeight;
-    const needResize = canvas.width !== width || canvas.height !== height;
-    if (needResize) {
-      renderer.setSize(width, height, false);
-    }
-    return needResize;
+  animate(time) {
+    requestAnimationFrame(this.animate);
+    // controls.update();
+    
+    var delta = this.clock.getDelta();
+    this.earth.rotation.y += 0.05 * delta;
+    this.render();
   }
 }
 export default OrbitTracker;

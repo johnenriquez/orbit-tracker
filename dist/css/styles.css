@@ -21,7 +21,7 @@ body {
 
 .ui-bar {
   position: absolute;
-  bottom: 0;
+  top: 0;
   left: 0;
   right: 0;
   padding: 0; }
@@ -37,5 +37,31 @@ body {
     .ui-bar ul a {
       display: block;
       padding: 0.5em; }
+
+.loadingModal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  font-size: 20px;
+  padding: 2em 3em; }
+
+.ui-sat-info {
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.5); }
+  .ui-sat-info ul {
+    list-style: none;
+    padding: 0; }
+  .ui-sat-info li {
+    padding: .5em; }
 
 /*# sourceMappingURL=styles.css.map */
