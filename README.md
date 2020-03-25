@@ -1,6 +1,6 @@
 # orbit-tracker
 
-Welcome to [Orbit Tracker](https://johnenriquez.github.io/orbit-tracker/)!
+Welcome to [Orbit Tracker](https://johnenriquez.com/orbit-tracker/)!
 
 ## About
 
